@@ -1,0 +1,7 @@
+Max16Exporter.sdf
+*.ipch
+x64
+Debug
+Release
+*.sdf
+*.suo
