@@ -1,0 +1,114 @@
+Symmetric Tree
+
+link: https://leetcode.com/problems/symmetric-tree/
+
+Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
+
+For example, this binary tree is symmetric:
+
+    1
+   / \
+  2   2
+ / \ / \
+3  4 4  3
+But the following is not:
+    1
+   / \
+  2   2
+   \   \
+   3    3
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        if(!root)
+            return true;
+            
+        return isSymmetric(root->left,root->right);
+    }
+    
+    bool isSymmetric(TreeNode* left, TreeNode* right)
+    {
+        if(!left && !right)
+            return true;
+            
+        if(left && !right || !left && right)
+            return false;
+        
+        if(left->val != right->val)
+            return false;
+        else 
+            return isSymmetric(left->left, right->right) && isSymmetric(left->right, right->left);
+    }
+};
+
+//solution 1: check the left and right nodes. if both are null, return true; other wise check left's left and right's right && left's right and right's left.
+
+//mistake: forget to check root :(
+
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        
+        if(!root)
+            return true;
+            
+        stack<TreeNode*> unchecked;
+            
+        TreeNode* left = root->left;
+        TreeNode* right = root->right;
+        
+        unchecked.push(left);unchecked.push(right);
+        
+        while(unchecked.size() > 0)
+        {
+            left = unchecked.top();
+            unchecked.pop();
+            right = unchecked.top();
+            unchecked.pop();
+            
+            if(!left && !right)
+                continue;
+            if(left && !right || !left && right)
+                return false;
+            if(left->val != right->val)
+                return false;
+            
+            unchecked.push(left->left);
+            unchecked.push(right->right);
+            
+            unchecked.push(left->right);
+            unchecked.push(right->left);
+        }
+        
+        
+        
+        return !left && !right;
+    }
+    
+};
+
+//solution 2: loop!
+//so I use a stack to keep track of all the left right nodes
+//the order to push stack matters! left->left pairs right->right ; left->right pairs right->left;
+//when pop the nodes, every 2 nodes are comparable
+//there are 3 ifs,
+//first check null pointers, continue to check nodes in the stack
+//2nd check if one of the pointers are null, to avoid crash
+//3rd check vals
+//after the loop, all the check passed, shall I return true? NO! cause left and right can be null at the
+//beginning, so return !left && !right :D this is the pitfall
+
+
+
+
