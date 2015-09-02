@@ -1,0 +1,84 @@
+
+Binary Tree Level Order Traversal 
+
+Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
+
+For example:
+Given binary tree {3,9,20,#,#,15,7},
+    3
+   / \
+  9  20
+    /  \
+   15   7
+return its level order traversal as:
+[
+  [3],
+  [9,20],
+  [15,7]
+]
+
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> ret;
+        queue<TreeNode*> unchecked;
+        if(!root)
+            return ret;
+            
+        unchecked.push(root);
+        int levelNodeCount = 1;
+     
+        while(unchecked.size() > 0)
+        {
+            vector<int> level;
+            int newLevelcount = 0;
+            for(int i =0; i < levelNodeCount; ++i)
+            {
+                TreeNode* popped = unchecked.front(); unchecked.pop();
+                level.push_back(popped->val);
+                
+                if(popped->left)
+                {
+                    unchecked.push(popped->left);
+                    newLevelcount ++;
+                }
+                if(popped->right)
+                {
+                    unchecked.push(popped->right);
+                    newLevelcount ++;
+                }
+            }
+            
+            levelNodeCount = newLevelcount;
+            
+                
+            if(level.size() > 0 )
+            {
+               
+                ret.push_back(level);
+            }
+            
+        }
+        
+        
+        return ret;
+    }
+};
+
+//solution: using queue to track level nodes and orders
+//so everytime you push a node into queue, levelNodeCount ++; when you pop, you pop all the nodes belong to
+//this level, check their children and push to the queue, keep doing untile queue is empty
+//so every while loop means one level, just add the level int values to return vector
+
+//mistake: I was doing the No101 at the begining, left node and right node, actualy this time needs to do all the nodes on the same level.
