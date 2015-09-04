@@ -1,0 +1,114 @@
+Balanced Binary Tree 
+
+
+Given a binary tree, determine if it is height-balanced.
+
+For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isBalanced(TreeNode* root) {
+        if(!root)
+            return true;
+        
+        return checkNode(root);
+    }
+    
+    bool checkNode(TreeNode* node)
+    {
+        if(!node)
+            return true;
+            
+        TreeNode* left = node->left;
+        TreeNode* right = node->right;
+        
+        if(!left && !right)
+            return true;
+            
+        int leftDepth = countDepth(left);
+        int rightDepth = countDepth(right);
+        
+        if(abs(leftDepth - rightDepth) > 1)
+            return false;
+       
+        return checkNode(left) && checkNode(right);
+    }
+    
+    int countDepth(TreeNode* node)
+    {
+        if(!node)
+            return 0;
+        int leftD = countDepth(node->left) ;
+        int rightD = countDepth(node->right) ;
+        
+        return (leftD > rightD ? leftD : rightD ) + 1;
+    }
+};
+
+
+//I misunderstand the balanced-tree, I was counting the left subtree node num and right subtree node
+//num :(
+//Solution 1: check all the nodes , when a node is null, it's a balanced node;
+//when a node's left and right children are null, it's a balanced node;
+//when a node's left depth and right depth diff <= 1, it's a balanced node;
+
+//PS: 
+// if(abs(leftDepth - rightDepth) > 1)
+//          return false;
+// this can return false early :D, for example, check left node if it returns false, no need to do && check
+//right
+// when countDepth, I just compare left depth and right depth , return the bigger one.
+
+//there are 2 recursions here, check node and count depth, I was trying to combine them together
+
+
+class Solution {
+public:
+    bool isBalanced(TreeNode* root) {
+        if(!root)
+            return true;
+        
+        return checkNode(root) >= 0;
+    }
+    
+    int checkNode(TreeNode* node)
+    {
+        if(!node)
+            return 0;
+            
+        int leftDepth = checkNode(node->left);
+        
+        if(leftDepth < 0)
+            return leftDepth;
+        
+        int rightDepth = checkNode(node->right);
+        
+        if(rightDepth < 0)
+            return rightDepth;
+        
+        if(abs(leftDepth - rightDepth) > 1)
+            return -1;
+        else
+            return (leftDepth > rightDepth ? leftDepth : rightDepth ) + 1;
+    }
+    
+
+};
+
+//Solution 2: return depth if it's a balanced node, return -1 when it's not.
+//check every node's left and right node to see if they are negative value, return them if < 0
+//so in this case, you will find a negative value whenever you have an unbalanced node, only one recursion
+//to count the depth. 
+//Good!
+
+
