@@ -1,0 +1,56 @@
+Pascal's Triangle 
+
+Given numRows, generate the first numRows of Pascal's triangle.
+
+For example, given numRows = 5,
+Return
+
+[
+     [1],
+    [1,1],
+   [1,2,1],
+  [1,3,3,1],
+ [1,4,6,4,1]
+]
+
+
+class Solution {
+public:
+    
+    vector<vector<int>> generate(int numRows) {
+        vector<vector<int>> ret;
+        if(numRows <= 0)
+            return ret;
+        
+        vector<int> thisLevel = {1};
+        ret.push_back(thisLevel);
+        
+        for(int i = 1; i < numRows; ++i)
+        {
+            ret.push_back( generateALevel( thisLevel ) );
+        }
+        
+        return ret;
+    }
+    
+    vector<int> generateALevel(vector<int>& alevel)
+    {
+        vector<int>ret;
+        ret.push_back(1);
+        for(int i = 1; i < alevel.size() ; ++i )
+        {
+            ret.push_back( alevel[i-1] + alevel[i]);
+        }
+        ret.push_back(1);
+        
+        
+        alevel = ret;
+        
+        return ret;
+        
+    }
+
+};
+
+
+//Solution: so just generate levels based on last level values.

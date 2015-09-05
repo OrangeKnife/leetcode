@@ -1,0 +1,74 @@
+Pascal's Triangle II 
+
+Given an index k, return the kth row of the Pascal's triangle.
+
+For example, given k = 3,
+Return [1,3,3,1].
+
+Note:
+Could you optimize your algorithm to use only O(k) extra space?
+
+class Solution {
+public:
+    vector<int> getRow(int rowIndex) {
+        vector<int> ret = {1};
+        if(rowIndex == 0)
+            return ret;
+       
+        ret.push_back(1);
+              
+        // rowIndex >= 2
+        // i means level
+        for(int i = 3; i <= rowIndex + 1; ++i  )
+        {
+            //per level
+            int mid = (i - 1)/2;
+            ret.insert(ret.begin()+mid, ret[mid] + ret[mid - 1] );
+            
+            mid = (ret.size() - 1) / 2;
+            
+            int temp = ret[0];
+            
+            for(int j = 1; j <= mid; ++j)
+            {
+                if(j != mid)
+                {
+                    int originalJ = ret[j];
+                    ret[j] = ret[j] + temp;
+                    temp = originalJ;
+                }
+                    
+                ret[ret.size() - 1 - j] = ret[j];
+            }
+            
+        }
+            
+        return ret;
+        
+    }
+};
+
+
+//solution 1: this one is generating values by current values, insert into the current one, no runtime extra allocation for every loop, the ticky part is the second loop, calculate the value and copy the values from left half to right half :D
+
+
+class Solution {
+public:
+    vector<int> getRow(int rowIndex) {
+        vector<int> res(rowIndex+1, 0);
+        int i, j;
+        for(i=1, res[0]=1; i<=rowIndex;++i)
+            for(j=i;j>0;--j) res[j]+=res[j-1];
+        return res;
+
+    }
+};
+
+//solution 2: much better ! reserve a vector and fill with 0, put the first res[0] = 1
+//then start to calculate the values based on levels;
+//it calculate from right to left, and to the most left is 1
+//so you can always get the correct value without losing the current value data, this avoids the ticky part
+//I made for solution 1 :D
+//this one is very good !! remember when you go right to left, it technically create an '1' at the right
+//end all the time.
+//think of this when you face simmilar problem: updating current idx value will mess up with next value!
