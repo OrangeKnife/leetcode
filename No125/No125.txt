@@ -1,0 +1,92 @@
+Valid Palindrome 
+
+
+Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
+
+For example,
+"A man, a plan, a canal: Panama" is a palindrome.
+"race a car" is not a palindrome.
+
+Note:
+Have you consider that the string might be empty? This is a good question to ask during an interview.
+
+For the purpose of this problem, we define empty string as valid palindrome.
+
+
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        int len = s.size();
+        if(len <= 1)
+            return true;
+        
+        int idx1 = 0, idx2 = len -1;
+        
+        while(idx1 <= idx2)
+        {
+            bool idx1check = isAlphaNumeric(s[idx1]);
+            bool idx2check = isAlphaNumeric(s[idx2]);
+            if(idx1check && idx2check)
+            {
+                if(s[idx1] != s[idx2])
+                {
+                    if(isAlphabet(s[idx1]) && isAlphabet(s[idx2]))
+                    {
+                        return alphabetEquals(s[idx1],s[idx2]);
+                    }
+                    else
+                        return false;
+                }
+                else
+                {
+                    idx1++;
+                    idx2--;
+                }
+            }
+            else
+            {
+                if(!idx1check)
+                    idx1++;
+                    
+                if(!idx2check)
+                    idx2--;
+            }
+            
+        }
+        
+        return true;
+    }
+    
+    bool isAlphaNumeric(char c)
+    {
+        return (c >= 'a' && c <='z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9');
+    }
+    
+    bool isAlphabet(char c)
+    {
+        return (c >= 'a' && c <='z') || (c >= 'A' && c <= 'Z');
+    }
+    
+    bool alphabetEquals(char c,char d)
+    {
+        if(c >= 'A' && c <= 'Z')
+        {
+            c = c + 32;
+        }
+        
+        if(d >= 'A' && d <= 'Z')
+        {
+            d = d + 32;
+        }
+        
+        return c == d;
+    }
+};
+
+
+//solution: comapre the chars between head and end, skip those non-alphanumic chars, I have one function to
+//detect the char see if it's alphanumeric, only move pointers when both chars are valid.
+//pitfalls: I forget the "ignoring cases" part, so using != to compare the chars is not correct, I added more functions to check if it's alphabet and compare upper case lower case letters.
+
+
+//WHY NOT CHANGE THE CASES AT THE BEGINNING!!! er...... sometimes I just feel I am too stupid.
