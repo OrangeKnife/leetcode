@@ -1,0 +1,58 @@
+Min Stack 
+
+Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
+
+push(x) -- Push element x onto stack.
+pop() -- Removes the element on top of the stack.
+top() -- Get the top element.
+getMin() -- Retrieve the minimum element in the stack.
+
+
+class MinStack {
+public:
+    vector<int> data;
+    int currentTop;
+    vector<int> minData;
+    void push(int x) {
+        data.push_back(x);
+        currentTop = data.size() - 1;
+        
+        int min = 0;
+        if(currentTop == 0)
+            min = x;
+        else
+        {
+            min = minData[currentTop - 1];
+            if(x < min)
+                min = x;
+        }
+        minData.push_back(min);
+    }
+
+    void pop() {
+        if(currentTop >= 0)
+        {
+            data.erase(data.begin() + currentTop);
+            minData.erase(minData.begin() + currentTop);
+            currentTop--;
+        }
+    }
+
+    int top() {
+        if(currentTop >= 0)
+            return data[currentTop];
+        else
+            return 0;
+    }
+
+    int getMin() {
+        if(currentTop >= 0)
+            return minData[currentTop];
+        else
+            return 0;
+    }
+};
+
+//solution: I use vector to manager the data, and minData is the current data min number vector
+//manager these two vector can give you: 1) random access to the any values by idx 2) no need to do sort
+//which can make the "getMin" minimun time execution
