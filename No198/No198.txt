@@ -1,0 +1,28 @@
+House Robber
+
+You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security system connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
+
+Given a list of non-negative integers representing the amount of money of each house, determine the maximum amount of money you can rob tonight without alerting the police.
+
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int len = nums.size();
+        int pre = 0, cur = 0;
+        for(int i = 0; i < len; ++i)
+        {
+            int temp = max(pre + nums[i], cur);
+            pre = cur;
+            cur = temp;
+        }
+        
+        return cur;
+    }
+};
+
+
+//solution:I can't figure out a algorithm of this one
+//the reason is , I was thinking , how to pick out ints from the vector, and calculate the sum to be 
+//maximum
+//this solution is about, for each loop, how to compare the sum between pick/not pick this num.
+//pre means the sum when pick this num(not picked the num before), cur means the sum when not pick this num(picked the one before)
