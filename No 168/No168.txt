@@ -1,0 +1,36 @@
+Excel Sheet Column Title 
+
+Given a positive integer, return its corresponding column title as appear in an Excel sheet.
+
+For example:
+
+    1 -> A
+    2 -> B
+    3 -> C
+    ...
+    26 -> Z
+    27 -> AA
+    28 -> AB 
+
+
+class Solution {
+public:
+    string convertToTitle(int n) {
+        string ret;
+        while(n != 0)
+        {
+            int digit = (n - 1) % 26; 
+            ret.insert(ret.begin(), char(digit + 'A'));
+            
+            n = (n - 1)/ 26;
+        }
+        
+        return ret;
+    }
+private:
+    
+};
+
+//solution: bacally it's 10 baes to 26 base. so use n-1 % 26 to get the last digit of 26 base num
+//and use (n - 1) / 26 to iterate next digit.
+//
