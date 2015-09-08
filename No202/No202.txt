@@ -1,0 +1,46 @@
+Happy Number 
+
+Write an algorithm to determine if a number is "happy".
+
+A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy numbers.
+
+Example: 19 is a happy number
+
+1^2 + 9^2 = 82
+8^2 + 2^2 = 68
+6^2 + 8^2 = 100
+1^2 + 0^2 + 0^2 = 1
+
+
+class Solution {
+public:
+    bool isHappy(int n) {
+        int result = 0;
+        bool cachedResult[650] = {false};
+        while(result != 1)
+        {
+            result = 0;
+            while(n != 0)
+            {
+                int digit = n % 10;
+                n /= 10;
+                
+                result += digit* digit;
+            }
+            
+            if(cachedResult[result])
+                return false;
+            else
+                cachedResult[result] = true;
+                
+            n = result;
+        }
+        
+        return true;
+    }
+};
+
+//solution: 731 is because 1999999999 is the biggest int to produce 1 + 9^9 x 9 = 730
+//I use the array to cache the result and detect loop result
+//so, whenever n is assigned, grab all the digits and add square to result, check cached booleans
+//if it's a loop result, return false, if result == 1, return true
