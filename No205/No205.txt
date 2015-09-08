@@ -1,0 +1,78 @@
+Isomorphic Strings 
+
+Given two strings s and t, determine if they are isomorphic.
+
+Two strings are isomorphic if the characters in s can be replaced to get t.
+
+All occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character but a character may map to itself.
+
+For example,
+Given "egg", "add", return true.
+
+Given "foo", "bar", return false.
+
+Given "paper", "title", return true.
+
+
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        array <char, 128> dict0 {0}, dict1 {0};
+
+        for (int i = 0; i < s.size(); ++i)
+        {
+            char sc = s[i], tc = t[i];
+            if (dict0[sc] == 0 && dict1[tc] == 0)
+            {
+                dict0[sc] = tc;
+                dict1[tc] = sc;
+            }else if (dict0[sc] != tc)
+            {
+                return false;
+            }else if (dict1[tc] != sc)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+};
+/*
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        map<char,char> charmap;
+        for(int i = 0; i < s.size(); ++i)
+        {
+            char c = s[i];
+            if(charmap.find(c) == charmap.end())
+            {
+                for(auto it : charmap)
+                {
+                    if(it.second == t[i])
+                        return false;
+                        
+                }
+                
+                charmap[c] = t[i];
+            }
+            
+                s[i] = charmap[c];
+        }
+        
+        return s == t;
+    }
+};
+*/
+
+
+//solution 1: compare the strings!!!, so I made a map to map char to char, change all the chars inside s
+//compare s and t , it's slow
+
+//solution 2: fast! make 2 arrays, one for s one for t, iterate s and t at the same time, they shall have
+//the opposite mapping ( a-b, b-a) , so check if map[a] == b and check map[b] == a, whenever one of the
+//condition is false, it's a mismatch, return false
+//return true at the end because map1 and map2 are opposite mapping.
+//this is smart !!! sometimes we need to think of the problem in a different way, this time is thinking
+//of making 2 opposite mapping char maps.
