@@ -1,0 +1,45 @@
+Contains Duplicate 
+
+Given an array of integers, find if the array contains any duplicates. Your function should return true if any value appears at least twice in the array, and it should return false if every element is distinct.
+
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        unordered_map<int,bool> intmap;
+        for(auto i : nums)
+        {
+            if(intmap.find(i) != intmap.end())
+                return true;
+            
+            intmap[i] = true;
+        }
+        
+        return false;
+    }
+};
+
+/*
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+       if(nums.size() <= 1)
+            return false;
+       sort(nums.begin(), nums.end());
+       for(int i = 0; i < nums.size() - 1; ++i)
+       {
+           if(nums[i] == nums[i+1])
+            return true;
+       }
+        
+       return false;
+    }
+};
+*/
+
+//solution 1: so I am using sort() to make sure duplicate ints will stay next to each other, and check
+//the neighbour.
+
+//solution 2: use a map to track whether or not an int is already registered, if yes, return true
+
+
+//two solutions are either space focus or time focus, we always trade off with each other.
