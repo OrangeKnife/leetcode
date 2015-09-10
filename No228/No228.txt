@@ -1,0 +1,44 @@
+Summary Ranges 
+
+Given a sorted integer array without duplicates, return the summary of its ranges.
+
+For example, given [0,1,2,4,5,7], return ["0->2","4->5","7"].
+
+class Solution {
+public:
+    vector<string> summaryRanges(vector<int>& nums) {
+        vector<string> ret;
+        string range;
+        
+        if(nums.size() == 0)
+            return ret;
+            
+        int start = nums[0];
+        
+        for(int i = 1; i < nums.size(); ++i)
+        {
+            if(nums[i] == nums[i-1] + 1)
+                continue;
+            
+            if(start == nums[i-1])
+                ret.push_back(to_string((start)));
+            else
+                ret.push_back(to_string((start))+string("->")+to_string((nums[i-1])));
+            
+            start = nums[i];
+        }
+        
+        if(start == nums[nums.size() - 1])
+            ret.push_back(to_string((start)));
+        else
+        {
+             ret.push_back(to_string((start))+string("->")+to_string((nums[nums.size() - 1])));
+        }
+    }
+};
+
+
+//so, start from the second element, compare with the previous element, push to ret if it has a gap
+//be careful if start == nums[i-1] you shall push the start only, no -> 
+//be careful!
+//PS: to_string is so usefull
