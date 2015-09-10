@@ -1,0 +1,25 @@
+Power of Two
+
+Given an integer, write a function to determine if it is a power of two.
+
+class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+        if(n <= 0)
+            return false;
+        
+        if(n == 2 || n == 1)
+            return true;    
+            
+        if( n & 1 == 1)
+            return false;
+            
+            
+        return isPowerOfTwo(n/2);
+    }
+};
+
+//so if n <= 0 , false
+//if n == 1 or 2, true
+//if it's odd, false
+//otherwise divide by 2 to see
