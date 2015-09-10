@@ -1,0 +1,59 @@
+
+Implement Queue using Stacks 
+
+Implement the following operations of a queue using stacks.
+
+push(x) -- Push element x to the back of queue.
+pop() -- Removes the element from in front of queue.
+peek() -- Get the front element.
+empty() -- Return whether the queue is empty.
+Notes:
+You must use only standard operations of a stack -- which means only push to top, peek/pop from top, size, and is empty operations are valid.
+Depending on your language, stack may not be supported natively. You may simulate a stack by using a list or deque (double-ended queue), as long as you use only standard operations of a stack.
+You may assume that all operations are valid (for example, no pop or peek operations will be called on an empty queue).
+
+
+class Queue {
+public:
+    // Push element x to the back of queue.
+    stack<int> dataOut,dataIn;
+    void push(int x) {
+        while(dataOut.size() > 0)
+        {
+            dataIn.push( dataOut.top() );
+            dataOut.pop();
+        }
+        
+        dataIn.push(x);
+    }
+
+    // Removes the element from in front of queue.
+    void pop(void) {
+        while(dataIn.size() > 0)
+        {
+            dataOut.push( dataIn.top() );
+            dataIn.pop();
+        }
+        
+        dataOut.pop();
+    }
+
+    // Get the front element.
+    int peek(void) {
+        while(dataIn.size() > 0)
+        {
+            dataOut.push( dataIn.top() );
+            dataIn.pop();
+        }
+        
+        return dataOut.top();
+    }
+
+    // Return whether the queue is empty.
+    bool empty(void) {
+        return (dataIn.size() + dataOut.size()) == 0;
+    }
+};
+
+
+//easy one: make 2 stacks , cuz it's stack, you have to save those elements pushed latter before you grab the first pushed data
