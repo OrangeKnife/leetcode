@@ -1,0 +1,143 @@
+Two Sum
+
+Given an array of integers, find two numbers such that they add up to a specific target number.
+
+The function twoSum should return indices of the two numbers such that they add up to the target, where index1 must be less than index2. Please note that your returned answers (both index1 and index2) are not zero-based.
+
+You may assume that each input would have exactly one solution.
+
+Input: numbers={2, 7, 11, 15}, target=9
+Output: index1=1, index2=2
+
+/*
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> ret;
+        
+        unordered_map<int,int> mymap;
+        int count = 0;
+        
+        for(auto i : nums)
+        {
+            if(mymap.find(target - i) != mymap.end())
+            {
+                ret.push_back(mymap[target - i]+1);
+                ret.push_back(count+1);
+            }
+            
+            mymap[i] = count++;
+        }
+        
+        return ret;
+    }
+};
+//unordered_map<value,index> is basically, cheating :D, use hash table instead
+*/
+
+
+class HashNode
+{
+public:
+    int key;
+    int val;
+
+    HashNode(int k, int v): key(k), val(v),next(NULL)
+    {}
+    HashNode* next;
+};
+
+class HashTable
+{
+public:
+    size_t hashNum;
+    HashTable(size_t tablesize)
+    {
+        if(tablesize > 0)
+            table.reserve(tablesize);
+            
+        hashNum = tablesize;
+    }
+    
+    void insert(HashNode* node)
+    {
+        if(node)
+        {
+            int idx = node->key % hashNum;
+            HashNode* head = table[ idx ];
+            if(!head)
+                table[ idx ] = node;
+            else
+            {
+                while(head->next)
+                    head = head->next;
+                    
+                head->next = node;
+            }
+                
+        }
+    }
+    
+    HashNode* find(int key)
+    {
+        int idx = key % hashNum;
+        HashNode* head = table[idx];
+        
+        while(head)
+        {
+            if(head->key == key)
+                return head;
+                
+            head = head->next;
+        }
+        
+        return NULL;
+        
+    }
+    
+    ~HashTable()
+    {
+        for(auto pnode : table)
+        {
+            while(pnode)
+            {
+                HashNode* temp = pnode;
+                pnode = pnode->next;
+                delete temp;
+            }
+        }
+    }
+private:
+    vector< HashNode* > table;
+};
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> ret;
+        
+        HashTable ht(1000);
+        int count = 0;
+        
+        for(auto i : nums)
+        {
+            
+            if(ht.find(target - i) != NULL)
+            {
+                ret.push_back(ht.find(target - i)->val + 1);
+                ret.push_back(count+1);
+            }
+            
+            HashNode* node = new HashNode(i, count++);
+            ht.insert(node);
+        
+        }
+        
+        return ret;
+    }
+};
+
+
+
+
+//HASH TABLE !!!!!!!!!!!!!!!!!!!!!!!!
