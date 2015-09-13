@@ -1,0 +1,49 @@
+Longest Substring Without Repeating Characters
+
+Given a string, find the length of the longest substring without repeating characters. For example, the longest substring without repeating letters for "abcabcbb" is "abc", which the length is 3. For "bbbbb" the longest substring is "b", with the length of 1.
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        if(s.size() == 0)
+            return 0;
+        
+        int start = 0, end = 0;
+        int len = 0, max = 0;
+        int idx[128];
+        for(int i = 0; i < 128; i++)
+            idx[i] = -1;
+        while(end < s.size())
+        {
+            if( idx[s[end]] < start )
+            {
+                len = end - start + 1;
+                max = max > len ? max : len;
+                idx[s[end]] = end;
+                end++;
+            }
+            else
+            {
+                start = idx[s[end]] + 1;
+                idx[s[end]] = end;
+                end++;
+            }
+        }
+        
+        return max;
+    }
+    
+ };
+
+
+//solution 1: slow, test substring and move forward, entil reach end of s, only len++ when successfully checked the substring
+//and no duplicated chars.
+
+
+//solution 2: fast, use a int array to store the start idx of the sub string, if you find a char existing but before the start
+//still consider the substring is ok, only you find a char existing after the start idx, consider the substring is too long
+//whenever you find a new char can be added to the substring , recalculate len and compare the max
+//int the while loop start will move when you found any char already existed in the substring, start will be updated to the next char
+//so, you don't need to worry "whether or not new char already exist in the substring" , instead, "whether or not new char exist after the
+//start index"
+//in this way will be faster !
