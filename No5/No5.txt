@@ -1,0 +1,63 @@
+Longest Palindromic Substring
+
+Given a string S, find the longest palindromic substring in S. You may assume that the maximum length of S is 1000, and there exists one unique longest palindromic substring.
+
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        if(s.size() <= 1)
+            return s;
+        
+        string ret;
+        int max = 0;
+        int start=0, end = s.size() - 1;
+        
+        for(;start < s.size(); ++start)
+        {
+            int left = start - 1, right = start + 1;
+            int currentLen = 1;
+            while( left >= 0 && right <= end  )
+            {
+                if(s[left] == s[right])
+                {
+                    currentLen += 2;
+                    max = max > currentLen ? max : currentLen;
+                    if( max == currentLen)
+                        ret = s.substr(left, right - left + 1);
+                        
+                    left--;
+                    right++;
+                }
+                else
+                    break;
+                
+            }
+            
+            left = start; right = start + 1;
+            currentLen = 0;
+            while(left >= 0 && right <= end)
+            {
+                if(s[left] == s[right])
+                {
+                    currentLen += 2;
+                    max = max > currentLen ? max : currentLen;
+                    if( max == currentLen)
+                        ret = s.substr(left, right - left + 1);
+                        
+                    left--;
+                    right++;
+                }
+                else
+                    break;
+            }
+        }
+        
+        return ret;
+        
+    }
+};
+
+//I like my solution because it's super readable :D 
+//for every char in s, check it's left self right, left-- and right++ to determine whether or not it's a palindrome
+//or , check self right, self-- and right++ to determine whether or not it's a palindrome
+//remember save the max and save the return string
