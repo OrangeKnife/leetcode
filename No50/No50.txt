@@ -1,0 +1,68 @@
+Pow(x, n)
+
+Implement pow(x, n).
+
+/*
+class Solution {
+public:
+    double myPow(double x, int n) {
+        if(n < 0)
+        {
+            if(n == INT_MIN)
+                return 1/(x * myPow(x, -(n+1)));
+            else
+                return 1/myPow(x, -n);
+        }
+        else if(n == 0)
+            return 1;
+        else if(n == 1)
+        {
+            return x;
+        }
+        else
+        {
+            int half = n/2;
+            double halfResult = myPow(x, half);
+            return  halfResult*halfResult * myPow(x,(n%2));
+        }
+    }
+};
+*/
+
+//solution 1: slow recursion
+
+class Solution {
+public:
+    double myPow(double x, int n) {
+        double ret;
+        if(n < 0)
+        {
+            if(n == INT_MIN)
+               ret = 1/(x * myPow(x, -(n+1)));
+            else
+               ret = 1/myPow(x, -n);
+        }
+        else if(n == 0)
+            ret = 1;
+        else
+        {
+            //binary search
+            ret = 1;
+            unsigned int m = 1, un = n;
+            while(m <= un)
+            {
+                if(m & un)
+                {
+                    ret *= x;
+                }
+                x *= x;
+                m <<= 1;
+            }
+            
+        }
+        
+        return ret;
+    }
+};
+
+//faster loop solution: so the idea is : pick those bits in the n which indicate x^(1,2,4,8...)
