@@ -1,0 +1,55 @@
+Valid Number
+
+Validate if a given string is numeric.
+
+Some examples:
+"0" => true
+" 0.1 " => true
+"abc" => false
+"1 a" => false
+"2e10" => true
+Note: It is intended for the problem statement to be ambiguous. You should gather all requirements up front before implementing one.
+
+
+
+
+
+class Solution {
+public:
+    bool isNumber(string s) {
+        //"1 1"is not valid, "0x11" is not valid, "." is not valid, "2e3.1" is not valid, "2e" is not valid,"1a" is not valid,"++1" is not valid
+        int n = s.size();
+        if(n == 0) return false;
+        int i = 0;
+        int count_num = 0,count_point = 0;
+        while(s[i] == ' ') i++;
+        if(s[i] == '+' || s[i] == '-') i++;
+        while(isdigit(s[i]) || s[i] == '.') s[i++] == '.'?count_point++:count_num++;
+        if(count_point > 1 || count_num < 1) return false;
+        if(s[i] == 'e'){
+            i++;
+            count_num = 0;count_point = 0;
+            if(s[i] == '+' || s[i] == '-') i++;
+            while(isdigit(s[i]) || s[i] == '.') s[i++] == '.'?count_point++:count_num++;
+            if(count_point > 0 || count_num < 1) return false;
+        }
+        while(s[i] == ' ') i++;
+        return i == n;
+    }
+};
+
+//steal this solution from other people
+//so the problem here is , when to return false;
+//1. ignore the ' ' at the very beginning and '+' '-' as the first character
+//2. count how many '.' and how many digits you have, before you stop at an 'e'
+//3. count how many point and digits you have after e
+//4. ignore the ' ' at the end
+
+//so if index != n, means at the end, there are some non-space characters, return false
+//if after an 'e' you found a '.' or digits < 1, means the first 'e' is invalid
+//if before an 'e', you found more than 1 '.' and digits < 1, means 'e' is invalid
+
+//these are the conditions need to return false
+//this solutoin is smart, using a 'e' '.' digits and index to organize the false conditions
+//too smart.
+
