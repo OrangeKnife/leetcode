@@ -1,0 +1,52 @@
+Validate Binary Search Tree
+
+
+Given a binary tree, determine if it is a valid binary search tree (BST).
+
+Assume a BST is defined as follows:
+
+The left subtree of a node contains only nodes with keys less than the node's key.
+The right subtree of a node contains only nodes with keys greater than the node's key.
+Both the left and right subtrees must also be binary search trees.
+confused what "{1,#,2,3}" means? > read more on how binary tree is serialized on OJ.
+
+
+
+
+
+
+
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+ bool isValidBST(TreeNode* root) {
+    return isValidBST(root, NULL, NULL);
+}
+  bool isValidBST(TreeNode* root, TreeNode* minNode, TreeNode* maxNode) {
+    if(!root) return true;
+    if(minNode && root->val <= minNode->val || maxNode && root->val >= maxNode->val)
+        return false;
+    return isValidBST(root->left, minNode, root) && isValidBST(root->right, root, maxNode);
+}
+};
+
+//this is a very smart solution I steal from discuss session
+//so the real question is : when return false, when return true
+//whenever you reach a null node, either left or right, that branch is true
+//whenever you reach a node, but node >= max or node <= min , return false
+//so how do you determin min or max
+//if it's left branch, min was the min passed from parent, max was current node
+//if it's right branch, min was the current node, max was the max passed from parent
+//why?
+//because, whenever you go through the tree, there are left and right branches, and left branch limits the max value
+//right branch limits the min value
