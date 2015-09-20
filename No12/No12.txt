@@ -1,0 +1,105 @@
+Integer to Roman
+
+Given an integer, convert it to a roman numeral.
+
+Input is guaranteed to be within the range from 1 to 3999.
+
+
+
+
+
+
+
+class Solution {
+public:
+    string intToRoman(int num) {
+        string ret;
+        
+        int howManyM = num/1000;
+        num -= howManyM * 1000;
+        for(int i = 0; i < howManyM; ++i)
+            ret.push_back('M');
+        
+        int digitH = num/100;
+        if( digitH >=1 && digitH <=3)
+        {
+            for(int i = 0; i < digitH; ++i)
+                ret.push_back('C');
+        }
+        else if (digitH == 4)
+        {
+            ret.push_back('C');
+            ret.push_back('D');
+        }
+        else if (digitH >=5 && digitH <= 8)
+        {
+            ret.push_back('D');
+            
+            for(int i = 6; i <= digitH; ++i)
+                ret.push_back('C');
+        }
+        else if (digitH == 9)
+        {
+            ret.push_back('C');
+            ret.push_back('M');
+        }
+        
+        num -= digitH * 100;
+        
+        digitH = num/10;
+        
+        if( digitH >=1 && digitH <=3)
+        {
+            for(int i = 0; i < digitH; ++i)
+                ret.push_back('X');
+        }
+        else if (digitH == 4)
+        {
+            ret.push_back('X');
+            ret.push_back('L');
+        }
+        else if (digitH >=5 && digitH <= 8)
+        {
+            ret.push_back('L');
+            
+            for(int i = 6; i <= digitH; ++i)
+                ret.push_back('X');
+        }
+        else if (digitH == 9)
+        {
+            ret.push_back('X');
+            ret.push_back('C');
+        }
+            
+        num -= digitH * 10;
+        
+        digitH = num;
+        
+        if( digitH >=1 && digitH <=3)
+        {
+            for(int i = 0; i < digitH; ++i)
+                ret.push_back('I');
+        }
+        else if (digitH == 4)
+        {
+            ret.push_back('I');
+            ret.push_back('V');
+        }
+        else if (digitH >=5 && digitH <= 8)
+        {
+            ret.push_back('V');
+            
+            for(int i = 6; i <= digitH; ++i)
+                ret.push_back('I');
+        }
+        else if (digitH == 9)
+        {
+            ret.push_back('I');
+            ret.push_back('X');
+        }
+            
+        return ret;
+    }
+};
+
+//all the cases are coded
