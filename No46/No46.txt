@@ -1,0 +1,46 @@
+Permutations
+
+Given a collection of numbers, return all possible permutations.
+
+For example,
+[1,2,3] have the following permutations:
+[1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,1,2], and [3,2,1].
+
+class Solution {
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> ret;
+        
+        vector<int> oneSet;
+        doPermute(ret, oneSet, nums);
+        
+        return ret;
+        
+    }
+private:
+    void doPermute(vector<vector<int>>& ret, vector<int>& oneSet, vector<int>& currentNums)
+    {
+        if(currentNums.size() == 1)
+        {
+            oneSet.push_back(currentNums[0]);
+            ret.push_back(oneSet);
+        }
+            
+        for(int i = 0; i < currentNums.size(); ++i)
+        {
+            vector<int> onePermutation = oneSet;
+            onePermutation.push_back(currentNums[i]);
+            vector<int> newNums = currentNums;
+            newNums.erase(newNums.begin() + i, newNums.begin()+i+1);
+            doPermute(ret, onePermutation, newNums);
+        }
+    }
+};
+
+//I did it through recursion
+//ret means final ret, oneSet means one permutatoin, currentNums means current unused numbers
+//everytime I put one number into one permutation, I copy currentNums, erase the one I pick and
+//call doPermute again to reach the last number
+//once it returns, because I copied the oneSet and currentNums, instead of passing them into doPermute
+//I get those numbers back to currentNums. and I can copy again
+//by doing so, I go through every numbers recursively 
