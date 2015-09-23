@@ -1,0 +1,30 @@
+Sqrt(x)
+
+Implement int sqrt(int x).
+
+Compute and return the square root of x.
+
+class Solution {
+public:
+    int mySqrt(int x) {
+        if(x < 2) return x;
+        
+        int i = 0, j = x;
+        while(i<j)
+        {
+            int mid = (i+j)/2;
+           
+            if( x/mid >= mid)
+                i = mid +  1;
+            else
+                j = mid;
+
+        }
+        
+       
+        
+        return j-1;
+    }
+};
+
+//binary search, from 0 to x, if mid* mid <= x, set i = mid + 1, until i >= j, j - 1 will be the sqrt
