@@ -1,0 +1,53 @@
+
+Combinations
+
+Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
+
+For example,
+If n = 4 and k = 2, a solution is:
+
+[
+  [2,4],
+  [3,4],
+  [2,3],
+  [1,2],
+  [1,3],
+  [1,4],
+]
+
+
+
+class Solution {
+public:
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> ret;
+    
+        vector<int> oneCombination;
+        int count = 0;
+        addOneNumber(oneCombination, 1, n, k, ret);
+        
+        return ret;
+    }
+    
+    void addOneNumber(vector<int>& oneCombination,int from, int n, int k,vector<vector<int>>& ret)
+    {
+        for(int num = from; num <= n; ++num)
+        {
+            oneCombination.push_back(num); 
+            if(oneCombination.size() == k)
+            {
+                ret.push_back(oneCombination);
+            }
+            else
+            {
+                addOneNumber(oneCombination, num+1,n, k, ret );
+            }
+            
+            int sz = oneCombination.size();
+            oneCombination.erase(oneCombination.begin()+ sz - 1);
+        }
+    }
+    
+};
+//so adding k numbers one by one, each one if can't push to ret, recursivly call addOneNumber
+//remember when return, remove the last number added
