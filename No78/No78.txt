@@ -1,0 +1,91 @@
+Subsets
+
+Given a set of distinct integers, nums, return all possible subsets.
+
+Note:
+Elements in a subset must be in non-descending order.
+The solution set must not contain duplicate subsets.
+For example,
+If nums = [1,2,3], a solution is:
+
+[
+  [3],
+  [1],
+  [2],
+  [1,2,3],
+  [1,3],
+  [2,3],
+  [1,2],
+  []
+]
+
+
+
+
+
+
+
+
+
+
+/*
+
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> ret;
+        int sz = nums.size();
+        vector<int> currentSet;
+        addOneNum(sz, 0, ret, currentSet, nums );
+        
+        return ret;
+        
+    }
+    
+    void addOneNum(int maxNum, int currentNum, vector<vector<int>>& ret, vector<int>& currentSet,vector<int>& nums)
+    {
+        ret.push_back(currentSet);
+        
+        for(int i = currentNum ; i < maxNum; ++i)
+        {
+            currentSet.push_back(nums[i]);
+           
+            addOneNum(maxNum, i + 1, ret, currentSet, nums);
+            
+            currentSet.pop_back();
+        }
+ 
+    }
+};
+
+
+*/
+//solution 1 is recursive solution, by adding one num by one number, to reach max num
+
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> ret;
+        ret.push_back(vector<int>());
+        
+        for (int i = 0; i < nums.size(); i++) {
+            int n = ret.size();
+            for (int j = 0; j < n; j++) {
+                ret.push_back(ret[j]); 
+                ret.back().push_back(nums[i]);
+                sort(ret.back().begin(), ret.back().end());
+            }
+        }
+        return ret;
+    }
+};
+
+
+//solution is to add new nums to the existing sets
+//[1,2,3] example:
+/*
+Initially: [[]]
+Adding the first number to all the existed subsets: [[], [1]];
+Adding the second number to all the existed subsets: [[], [1], [2], [1, 2]];
+Adding the third number to all the existed subsets: [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]].
+*/
