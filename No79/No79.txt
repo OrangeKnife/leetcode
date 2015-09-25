@@ -1,0 +1,84 @@
+Word Search
+
+
+
+
+Given a 2D board and a word, find if the word exists in the grid.
+
+The word can be constructed from letters of sequentially adjacent cell, where "adjacent" cells are those horizontally or vertically neighboring. The same letter cell may not be used more than once.
+
+For example,
+Given board =
+
+[
+  ["ABCE"],
+  ["SFCS"],
+  ["ADEE"]
+]
+word = "ABCCED", -> returns true,
+word = "SEE", -> returns true,
+word = "ABCB", -> returns false.
+
+
+
+
+
+
+class Solution {
+public:
+    
+    bool exist(vector<vector<char>>& board, string word) {
+        int x = board.size();
+        
+        if(x == 0)
+            return false;
+        
+        int y = board[0].size();
+        
+        if (y == 0)
+            return false;
+        
+        if(word.size() == 0)
+            return false;
+            
+        for(int i = 0; i < x; ++i)
+        {
+            for(int j = 0; j < y; ++j)
+            {
+                if(search(i,j, word, 0, board))
+                    return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    bool search(int i, int j, string word, int wordidx,vector<vector<char>>& board)
+    {
+        if( board[i][j] == word[wordidx] )
+        {
+            if(word.size() - 1 == wordidx)
+                return true;
+                
+            bool b = false;
+            char temp = board[i][j];
+            board[i][j] = -1;
+            if (i > 0)
+                b = search(i-1, j, word, wordidx+1, board);
+            if (!b && i < board.size() - 1)
+                b =search(i+1, j, word, wordidx+1, board);
+            if (!b && j > 0)
+                b =search(i, j-1, word, wordidx+1, board);
+            if (!b && j < board[0].size() - 1)
+                b =search(i, j+1, word, wordidx+1, board);
+            board[i][j] = temp;
+            return b;
+        }
+        else
+            return false;
+    }
+    
+    
+};
+//this is a little bit like A* search, mark the visited node and seach for the next node
+
